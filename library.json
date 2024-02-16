@@ -1,6 +1,6 @@
 {
   "name": "cmder",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Embedded control protocol",
   "keywords": "c++, protocol, text",
   "repository": {
@@ -15,7 +15,6 @@
   "license": "MIT",
   "homepage": "https://gitlab.com/40hz/cpp/cmder",
   "dependencies": {
-    "remix": "https://gitlab.com/40hz/cpp/remix/library.git",
-    "printer": "https://gitlab.com/40hz/cpp/printer.git"
+    "printer": "~0.1.1"
   }
 }

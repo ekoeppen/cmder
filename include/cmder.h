@@ -1,20 +1,19 @@
 #pragma once
 
 #include <printer.h>
-#include <remix/bytes_view.h>
+#include <span>
+#include <string_view>
 
 namespace cmder {
 
-using namespace remix::literals;
-
-typedef void (&CommandHandler)(remix::bytes_view);
+typedef void (&CommandHandler)(std::string_view);
 
 struct Command {
-    remix::bytes_view command;
-    remix::bytes_view description;
+    std::string_view command;
+    std::string_view description;
     CommandHandler handler;
 
-    auto handles(remix::bytes_view input) const -> bool
+    auto handles(std::string_view input) const -> bool
     {
         if (input == command) {
             handler(input);
@@ -28,54 +27,43 @@ template<typename Console>
 struct Cmder {
     Console& console;
     std::span<Command> commands;
-    std::span<remix::bytes_view> info;
+    std::span<std::string_view> info;
 
-    auto handleCommand(std::span<uint8_t> input) -> void
+    auto handleCommand(std::string_view input) -> void
     {
-        auto command = remix::bytes_view(input);
-        auto n = command.substr(0, command.find(';'));
+        auto cmd = input.substr(0, input.find(';'));
         for (auto const& c : commands) {
-            if (c.handles(n)) {
+            if (c.handles(cmd)) {
                 return;
             }
         }
-        if (n == "ping"_b) {
-            console.write("pong;;;\n"_b);
+        if (cmd == "ping") {
+            console.write("pong;;;\n");
             return;
         }
-        if (n == "info"_b) {
+        if (cmd == "info") {
             showInfo();
             return;
         }
-        if (n == "commands"_b) {
+        if (cmd == "commands") {
             showCommands();
             return;
         }
-        console.write("error;;;Unknown command: "_b);
+        console.write("error;;;Unknown command: ");
         console.write(input);
         console.send('\n');
     }
 
     auto showInfo() -> void
     {
-        auto print = printer::printer { console };
-        for (int n = 1; const auto& i : info) {
-            console.write("info;"_b);
-            print(n);
-            console.send(';');
-            print(std::size(info));
-            console.send(';');
-            console.write(i);
-            console.send('\n');
-            n++;
-        }
+        sendResponse("info", info);
     }
 
     auto showCommands() -> void
     {
         auto print = printer::printer { console };
         for (int n = 1; const auto& c : commands) {
-            console.write("command;"_b);
+            console.write("command;");
             print(n);
             console.send(';');
             print(std::size(commands));
@@ -83,6 +71,21 @@ struct Cmder {
             console.write(c.command);
             console.send(';');
             console.write(c.description);
+            console.send('\n');
+            n++;
+        }
+    }
+
+    auto sendResponse(std::string_view response, std::span<std::string_view>& values)
+    {
+        auto print = printer::printer { console };
+        for (int n = 1; const auto& v : values) {
+            console.write(response);
+            print(n);
+            console.send(';');
+            print(std::size(values));
+            console.send(';');
+            console.write(v);
             console.send('\n');
             n++;
         }
