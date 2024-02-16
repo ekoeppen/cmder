@@ -54,10 +54,7 @@ struct Cmder {
         console.send('\n');
     }
 
-    auto showInfo() -> void
-    {
-        sendResponse("info", info);
-    }
+    auto showInfo() -> void { sendResponse("info", info); }
 
     auto showCommands() -> void
     {
