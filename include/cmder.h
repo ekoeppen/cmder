@@ -78,6 +78,7 @@ struct Cmder {
         auto print = printer::printer { console };
         for (int n = 1; const auto& v : values) {
             console.write(response);
+            console.send(';');
             print(n);
             console.send(';');
             print(std::size(values));
