@@ -73,7 +73,7 @@ struct Cmder {
         }
     }
 
-    auto sendResponse(std::string_view response, std::span<std::string_view>& values)
+    auto sendResponse(std::string_view response, std::span<std::string_view> const& values)
     {
         auto print = printer::printer { console };
         for (int n = 1; const auto& v : values) {
