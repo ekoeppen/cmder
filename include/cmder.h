@@ -38,7 +38,7 @@ struct Cmder {
             }
         }
         if (cmd == "ping") {
-            console.write("pong;;;\n");
+            console.write(std::string_view { "pong\n" });
             return;
         }
         if (cmd == "info") {
@@ -49,7 +49,7 @@ struct Cmder {
             showCommands();
             return;
         }
-        console.write("error;;;Unknown command: ");
+        console.write(std::string_view { "error;;;Unknown command: " });
         console.write(input);
         console.send('\n');
     }
@@ -60,7 +60,7 @@ struct Cmder {
     {
         auto print = printer::printer { console };
         for (int n = 1; const auto& c : commands) {
-            console.write("command;");
+            console.write(std::string_view { "command;" });
             print(n);
             console.send(';');
             print(std::size(commands));
