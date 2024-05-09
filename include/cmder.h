@@ -13,9 +13,9 @@ struct Command {
     std::string_view description;
     CommandHandler handler;
 
-    auto handles(std::string_view input) const -> bool
+    auto handles(std::string_view cmd, std::string_view input) const -> bool
     {
-        if (input == command) {
+        if (cmd == command) {
             handler(input);
             return true;
         }
@@ -33,7 +33,7 @@ struct Cmder {
     {
         auto cmd = input.substr(0, input.find(';'));
         for (auto const& c : commands) {
-            if (c.handles(cmd)) {
+            if (c.handles(cmd, input)) {
                 return;
             }
         }
