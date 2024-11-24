@@ -1,0 +1,11 @@
+image: alpine/edge
+secrets:
+  - fa19c627-c19e-46f1-9257-30f9a6f15516
+shell: false
+sources:
+  - https://git.sr.ht/~ekoeppen/cmder
+tasks:
+  - mirror-to-github: |
+      cd cmder
+      set +x
+      git push --mirror "https://ekoeppen:$(cat $HOME/.token)@github.com/ekoeppen/cmder"
