@@ -14,7 +14,7 @@ tasks:
       cd $REPO
       find include -name '*.h' -o -name '*.hpp' | xargs clang-format -n -Werror
   - mirror-to-github: |
-      if [ "$GIT_REF" == "refs/heads/main" ]
+      if [ "$GIT_REF" == "refs/heads/main" ] && [ -e "$HOME/.token" ]
       then
         cd $REPO
         set +x

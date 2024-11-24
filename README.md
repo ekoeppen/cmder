@@ -1,5 +1,7 @@
 # Cmder
 
+[![builds.sr.ht status](https://builds.sr.ht/~ekoeppen/cmder.svg)](https://builds.sr.ht/~ekoeppen/cmder?)
+
 `cmder` is a PlatformIO library to implement a simple, text based protocol to
 control embedded devices.
 
