@@ -1,11 +1,22 @@
 image: alpine/edge
 secrets:
   - fa19c627-c19e-46f1-9257-30f9a6f15516
-shell: false
+environment:
+  REPO: cmder
+packages:
+  - build-base
+  - cmake
+  - clang19-extra-tools
 sources:
   - https://git.sr.ht/~ekoeppen/cmder
 tasks:
+  - lint: |
+      cd $REPO
+      find include -name '*.h' -o -name '*.hpp' | xargs clang-format -n -Werror
   - mirror-to-github: |
-      cd cmder
-      set +x
-      git push --mirror "https://ekoeppen:$(cat $HOME/.token)@github.com/ekoeppen/cmder"
+      if [ "$GIT_REF" == "refs/heads/main" ]
+      then
+        cd $REPO
+        set +x
+        git push --mirror "https://ekoeppen:$(cat $HOME/.token)@github.com/ekoeppen/$REPO"
+      fi
