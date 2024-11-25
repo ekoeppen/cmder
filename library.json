@@ -1,11 +1,11 @@
 {
   "name": "cmder",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Embedded control protocol",
   "keywords": "c++, protocol, text",
   "repository": {
     "type": "git",
-    "url": "https://gitlab.com/40hz/cpp/cmder.git"
+    "url": "https://git.sr.ht/~ekoeppen/cmder"
   },
   "authors": {
     "name": "Eckhart Koeppen",
@@ -13,7 +13,7 @@
     "url": "https://40hz.org/"
   },
   "license": "MIT",
-  "homepage": "https://gitlab.com/40hz/cpp/cmder",
+  "homepage": "https://git.sr.ht/~ekoeppen/cmder",
   "dependencies": {
     "printer": "~0.1.1"
   }
